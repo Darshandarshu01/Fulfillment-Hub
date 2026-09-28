@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fulfillment Hub - Orders</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container-fluid mt-4 px-4">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h1>Orders</h1>
+
+                <p class="text-muted">
+                    Manage and track fulfillment orders
+                </p>
+
+            </div>
+
+            <div class="nav-buttons">
+
+                <a href="/" class="btn btn-secondary">
+                    Dashboard
+                </a>
+
+                <a href="/inventory" class="btn btn-success">
+                    Inventory
+                </a>
+
+                <a href="/picking" class="btn btn-warning">
+                    Picking
+                </a>
+
+                <a href="/exceptions" class="btn btn-danger">
+                    Exceptions
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ORDER TABLE -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5 class="mb-0">
+                Order Management
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-bordered align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Deadline</th>
+                            <th>Update Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for order in orders %}
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    {{ order["order_number"] }}
+                                </strong>
+                            </td>
+
+                            <td>
+                                {{ order["customer_name"] }}
+                            </td>
+
+                            <td>
+
+                                {% if order["priority"] == "Priority" %}
+
+                                    <span class="badge bg-danger">
+                                        Priority
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if order["status"] == "Processing" %}
+
+                                    <span class="badge bg-secondary">
+                                        Processing
+                                    </span>
+
+                                {% elif order["status"] == "Picking" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Picking
+                                    </span>
+
+                                {% elif order["status"] == "Packing" %}
+
+                                    <span class="badge bg-info text-dark">
+                                        Packing
+                                    </span>
+
+                                {% elif order["status"] == "Staged" %}
+
+                                    <span class="badge bg-primary">
+                                        Staged
+                                    </span>
+
+                                {% elif order["status"] == "Shipped" %}
+
+                                    <span class="badge bg-success">
+                                        Shipped
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ order["status"] }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ order["deadline"] }}
+                            </td>
+
+                            <td>
+
+                                <form
+                                    action="/update-order/{{ order['id'] }}"
+                                    method="POST"
+                                    class="d-flex gap-2"
+                                >
+
+                                    <select
+                                        name="status"
+                                        class="form-select"
+                                    >
+
+                                        <option
+                                            value="Processing"
+                                            {% if order["status"] == "Processing" %}selected{% endif %}
+                                        >
+                                            Processing
+                                        </option>
+
+                                        <option
+                                            value="Picking"
+                                            {% if order["status"] == "Picking" %}selected{% endif %}
+                                        >
+                                            Picking
+                                        </option>
+
+                                        <option
+                                            value="Packing"
+                                            {% if order["status"] == "Packing" %}selected{% endif %}
+                                        >
+                                            Packing
+                                        </option>
+
+                                        <option
+                                            value="Staged"
+                                            {% if order["status"] == "Staged" %}selected{% endif %}
+                                        >
+                                            Staged
+                                        </option>
+
+                                        <option
+                                            value="Shipped"
+                                            {% if order["status"] == "Shipped" %}selected{% endif %}
+                                        >
+                                            Shipped
+                                        </option>
+
+                                    </select>
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary"
+                                    >
+                                        Update
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="text-center text-muted"
+                            >
+                                No orders available.
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Fulfillment Hub • Order Management
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

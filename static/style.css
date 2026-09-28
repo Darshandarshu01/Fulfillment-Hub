@@ -1,0 +1,58 @@
+body {
+    background-color: #f5f7fa;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-weight: 700;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.table {
+    background-color: white;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+.btn {
+    border-radius: 6px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 6px;
+}
+
+.badge {
+    font-size: 0.85rem;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.footer {
+    text-align: center;
+    color: #6c757d;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
